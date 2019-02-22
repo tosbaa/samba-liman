@@ -57,7 +57,7 @@ def before():
     if not option_exist(SECTION_NAME, OPTION_NAME):
         print('Option : {:s} is not exist'.format(OPTION_NAME))
         exit()
-    if OPTION_NAME = 'path':
+    if OPTION_NAME == 'path':
         print('Option : {:s} can not be deleted'.format(OPTION_NAME))
         exit()
     print('ok')
