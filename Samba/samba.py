@@ -1,7 +1,8 @@
 import configparser
-import sys
 samba_config_parser = configparser.ConfigParser()
 samba_config_parser.read("smb.conf")
+
+
 
 
 def print_section_with_options(section_name):
@@ -38,7 +39,7 @@ def section_to_dict(section_name):
 def create_section(section_name):
     with open("smb.conf", "a") as samba_config_file:
         try:
-            new_config_parser = configparser.SafeConfigParser()
+            new_config_parser = configparser.ConfigParser()
             new_config_parser.add_section(section_name)
             new_config_parser.write(samba_config_file)
         except configparser.DuplicateSectionError:
@@ -48,7 +49,7 @@ def create_section(section_name):
 def write_section_dict_to_file(section_dict):
     with open("smb.conf", "a") as samba_config_file:
         try:
-            new_config_parser = configparser.SafeConfigParser()
+            new_config_parser = configparser.ConfigParser()
             section_name = section_dict["section_name"]
             new_config_parser.add_section(section_name)
             samba_config_parser.add_section(section_name)
@@ -61,13 +62,11 @@ def write_section_dict_to_file(section_dict):
         except configparser.DuplicateSectionError:
             print("{:s} already exist".format(section_name))
 
+def get_section_names():
+    return samba_config_parser.sections()
+
 
 def has_section_already(section_dict):
-    return samba_config_file.has_section(section_dict("section_name"))
+    return samba_config_parser.has_section(section_dict("section_name"))
 
-test_section_dict = {}
-test_section_dict["section_name"] = "testSection"
-test_section_dict["url"] = "www.testsection.com"
-test_section_dict["max allow"] = "5"
-test_section_dict["guest ok"] = "yes"
-write_section_dict_to_file(test_section_dict)
+print(samba_config_parser.sections())
