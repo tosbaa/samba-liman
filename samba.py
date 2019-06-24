@@ -1,8 +1,8 @@
 import configparser
 samba_config_parser = configparser.ConfigParser()
 samba_config_parser.read('smb.conf')
-#print(samba_config_parser.sections())
 
+#print(samba_config_parser.sections())
 
 
 
@@ -70,4 +70,4 @@ def get_section_names():
 def has_section_already(section_dict):
     return samba_config_parser.has_section(section_dict("section_name"))
 
-get_section_names()
+print(check.section_exist("test"))
