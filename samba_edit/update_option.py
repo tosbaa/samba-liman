@@ -22,6 +22,25 @@ def option_exist(section_name, option_name):
     return SAMBA_CONFIG_PARSER.has_option(section_name, option_name)
 
 
+def file_exist(file_path):
+    """ Takes file_path(str) argument and checks that file exist in given path """
+    
+    return os.path.isdir(file_path)
+
+
+def is_path_duplicate(path):
+    """ Checks other sections path, if there is a match, returns an error """
+
+    for section in SAMBA_CONFIG_PARSER.sections():
+        try:
+            if path == SAMBA_CONFIG_PARSER.get(section, 'path'):
+                return True
+        except configparser.NoOptionError:
+            continue
+    return False
+
+
+
 def make_bash_call(stage_name):
     bash = ['python3.7', __file__, stage_name, sys.argv[2], sys.argv[3], sys.argv[4]]
     output = subprocess.Popen(bash, stdout=subprocess.PIPE).stdout
@@ -33,7 +52,6 @@ def get_option_value(section_name, option_name):
 
 
 def update_option(SECTION_NAME, OPTION_NAME, VALUE):
-    print("!!!!!!!" + OPTION_NAME)
     sed_script = "sed -i '/^\[{:s}\]/,/^\[/s/^{:s}.*/{:s} \= {:s}/' {:s}".format(SECTION_NAME, OPTION_NAME, OPTION_NAME, VALUE, SAMBA_FILE_PATH)
     subprocess.Popen(sed_script, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
@@ -60,6 +78,14 @@ def before():
     if not option_exist(SECTION_NAME, OPTION_NAME):
         print('Option : {:s} is not defined'.format(OPTION_NAME))
         exit()
+    if OPTION_NAME == 'path':
+        if is_path_duplicate(VALUE):
+            print('Given path is exist in conf file')
+            exit()
+        if file_exist(VALUE):
+            print('No file exist in given path')
+            exit()
+        
     print('ok')
 
 
