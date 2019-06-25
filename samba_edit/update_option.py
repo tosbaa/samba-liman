@@ -34,7 +34,7 @@ def get_option_value(section_name, option_name):
 
 def update_option(SECTION_NAME, OPTION_NAME, VALUE):
     print("!!!!!!!" + OPTION_NAME)
-    sed_script = "sed -i '/^\[%s\]/,/^\[/s/^%s.*/%s \= %s/' %s" % (SECTION_NAME, OPTION_NAME, OPTION_NAME, VALUE, SAMBA_FILE_PATH)
+    sed_script = "sed -i '/^\[{:s}\]/,/^\[/s/^{:s}.*/{:s} \= {:s}/' {:s}".format(SECTION_NAME, OPTION_NAME, OPTION_NAME, VALUE, SAMBA_FILE_PATH)
     subprocess.Popen(sed_script, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
 def automate():
