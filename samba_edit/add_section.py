@@ -3,6 +3,8 @@ import configparser
 import os
 import subprocess
 SAMBA_CONFIG_PARSER = configparser.ConfigParser()
+SAMBA_FILE_PATH = '../smb.conf'
+SAMBA_CONFIG_PARSER.read(SAMBA_FILE_PATH)
 
 SECTION_NAME = sys.argv[2]
 FILE_PATH = sys.argv[3]
@@ -34,7 +36,7 @@ def is_path_duplicate(path):
 def add_section(section_name, file_path):
     """ Add section to smb.conf file, checks for existence and duplication for path """
 
-    with open("smb.conf", "a") as samba_config_file:
+    with open(SAMBA_FILE_PATH, "a") as samba_config_file:
         new_config_parser = configparser.ConfigParser()
         new_config_parser.add_section(section_name)
         new_config_parser.set(section_name, 'path', file_path)
@@ -42,8 +44,6 @@ def add_section(section_name, file_path):
 
 
 def before():
-    SAMBA_CONFIG_PARSER.read('../smb.conf')
-
     if section_exist(SECTION_NAME):
         print('Section name : {:s} already exist'.format(SECTION_NAME))
         exit()
@@ -63,7 +63,7 @@ def run():
 
 def after():
     if not section_exist(SECTION_NAME):
-        print('Section can not be created')
+        print('Section : {:s} can not be created'.format(SECTION_NAME))
         exit()
     print('ok')
 
@@ -90,5 +90,6 @@ def make_bash_call(stage_name):
     return output.read().decode('utf-8')
 
 
+
 if __name__ == "__main__":
-    globals()[sys.argv[1]]()
+   globals()[sys.argv[1]]()
