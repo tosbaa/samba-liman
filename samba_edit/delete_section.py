@@ -22,7 +22,7 @@ def make_bash_call(stage_name):
 
 
 def delete_section(section_name):
-    sed_script = "sed -i '/^\[%s\]/,/^\[/{/^\[%s\]/!{/^\[/!d}};/^\[%s\]/d' %s" % (SECTION_NAME, SECTION_NAME, SECTION_NAME, SAMBA_FILE_PATH)
+    sed_script = "sed -i '/^\[%s\]/,/^\[/{/^\[/!d};/^\[%s\]/d' %s" % (SECTION_NAME, SECTION_NAME, SAMBA_FILE_PATH)
     subprocess.Popen(sed_script, shell=True)
 
 
@@ -44,10 +44,10 @@ def automate():
 
 def before():
     if not section_exist(SECTION_NAME):
-        print('Section name : {:s} not exist')
+        print('Section name : {:s} not exist'.format(SECTION_NAME))
         exit()
     if SECTION_NAME in BLOCKED_SECTIONS:
-        print('Section name : {:s} can not be deleted')
+        print('Section name : {:s} can not be deleted'.format(SECTION_NAME))
         exit()
     print('ok')
 
