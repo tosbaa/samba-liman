@@ -1,9 +1,24 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+# 1
+# Section sil
+# smb.conf dosyasından optionlarla beraber section siler
+# 1.0
+# samba
+# section_name:string
+# 3
+# Yagiz Kocer
+# yagizkocer@gmail.com
+# Havelsan
+# delete_section
+
+
 import sys
 import configparser
 import os
 import subprocess
 SAMBA_CONFIG_PARSER = configparser.ConfigParser()
-SAMBA_FILE_PATH = '../smb.conf'
+SAMBA_FILE_PATH = '/etc/samba/smb.conf'
 SAMBA_CONFIG_PARSER.read(SAMBA_FILE_PATH)
 BLOCKED_SECTIONS = ["global", "homes", "printers", "print$"]
 

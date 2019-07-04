@@ -1,9 +1,24 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+# 1
+# Section ekle
+# smb.conf dosyasına yeni section ekler
+# 1.0
+# samba
+# section_name:string,file_path:string
+# 3
+# Yagiz Kocer
+# yagizkocer@gmail.com
+# Havelsan
+# add_section
+
+
 import sys
 import configparser
 import os
 import subprocess
 SAMBA_CONFIG_PARSER = configparser.ConfigParser()
-SAMBA_FILE_PATH = '../smb.conf'
+SAMBA_FILE_PATH = '/etc/samba/smb.conf'
 SAMBA_CONFIG_PARSER.read(SAMBA_FILE_PATH)
 
 SECTION_NAME = sys.argv[2]
