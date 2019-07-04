@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # 1
 # User ile dosya paylaş 
-# Verilen kullanıcı samba paylaşımına açılır 
+# Verilen kullanıcı samba paylaşımına eklenir 
 # 1.0
 # samba
 #
@@ -31,14 +31,16 @@ def get_option_value(section_name, option_name):
 
 def add_user(section_name, user_name):
     if not SAMBA_CONFIG_PARSER.has_option(section_name, "valid users"):
-        add_option(section_name, "valid users", user_name + ",")
+        add_option(section_name, "valid users", user_name)
     else:
-        sed_script = r"sed -r -i '/^\[%s\]/,/^\[/{s/(^valid users = .*)/\1,%s/}' %s" % (section_name, user_name, SAMBA_FILE_PATH)
+        sed_script = r"sed -r -i '/^\[%s\]/,/^\[/{s/(^valid users = .*)/\1, %s/}' %s" % (section_name, user_name, SAMBA_FILE_PATH)
         subprocess.Popen(sed_script, shell=True)
 
-def user_exist(section_name, user):
+def user_exist(section_name, user_name):
     try:
-        return user in get_option_value(section_name, "valid users").split(",")
+        already_defined_users = [user.strip() for user in get_option_value(section_name, "valid users").split(",")]
+        print(already_defined_users)
+        return user_name in already_defined_users
     except configparser.NoOptionError:
         return True
 
